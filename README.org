@@ -3,12 +3,15 @@
   - [[#author][Author]]
   - [[#version][Version]]
   - [[#acknowledgements][Acknowledgements]]
+    - [[#llm-usage][LLM usage]]
   - [[#lisense][Lisense]]
   - [[#documentation][Documentation]]
+    - [[#companion-project-emacs-config][Companion project: emacs-config]]
     - [[#configuring-your-own-macros-advanced-setup][Configuring your own macros, advanced setup]]
     - [[#string---macos][String %- Macos]]
     - [[#simple-setup-example-for-your-emacs-file][Simple setup example for your .emacs file]]
-  - [[#recent-changes][Recent changes]]
+    - [[#workflow][Workflow]]
+  - [[#recent-changes]["Recent" changes]]
 
 ** Synopsis
    A utility to allow you to configure
@@ -31,9 +34,30 @@
    Contributers to the orginal smart-compile:
    Seiji Zenitani, Sakito Hisakura, and Greg Pfell
 
+*** LLM usage
+    I started on this project long before LLMs became the thing they are today.
+    I did use an LLM to clean up the code a bit to get it ready for MELPA,
+    but this project is largely hand-crearted
+
+    Today I do make use of LLMs, but in a controlled fashion. I will have
+    it create "bolier-plate" code for what I am working on, or spin example
+    code for an API I am not yet familiar with. Think of using Stack Overflow
+    on steroids.
+
+    I see the seduction on relying on LLMs more heavily, but I like to keep 
+    my own hands dirty. Should the VC funding for all these wonderous LLMs
+    drop someday, I don't want to be caught with my nickers down! And I've
+    been around to see many things come and go, and some of you may recall the 
+    great Dot.Com crash of 2000. Oh, I was in the middle of that. Lessons learnt.
+
+    I don't mean to be a doomsayer, but just a realist. The LLM bubble will eventually
+    burst for "reasons" that are out of scope to discuss here. Feel free to PM
+    me if you are interested in my opinions on the topic.
+
 ** Lisense
-   Fred Mitchell enhancements and modifications are covered by the MIT license.
-   The original code is covered by GPLv3.
+   The original code is covered by GPLv3. I was required by said license
+   to place schlau-compile under the same license, though I normally put
+   nearly all of my opensource work under MIT.
 
 ** Documentation
    schlau-compile -- the "schlau" part of the name is the German word for "smart".
@@ -45,10 +69,19 @@
    So basically, the currently active buffer is referenced by its 
    major mode to find the compile string to run. Please see the provided 
    example below.
+*** Companion project: emacs-config
+    Please visit the [[https://github.com/flajann2/emacs-config][emacs-config]] project, which has numerous examples
+    to support many different languages, especially [[https://github.com/flajann2/emacs-config/blob/master/init/schlau-ext.el][schlau-ext.el]].
+    You may use the entirety of emacs-config, or "steal" the parts that
+    you are most interested in. emacs-config has been in development for
+    over a decade, and recently someone convinced me to make it all public.
 
+    You will note that the snippet below comes from emacs-config, scaled back
+    for illustrative purposes.
 *** Configuring your own macros, advanced setup
     I provide an example, and it is actually the same one
-    I use on a daily basis.
+    I used to use on a daily basis. Please see emacs-config for my
+    current daily driver.
 
     #+begin_src elisp
 (require 'compile)
@@ -147,8 +180,24 @@
 
      And you will also note the last 3 lines setting up a key mapping,
      which you are of course free to change to your own liking.
+*** Workflow
+    + The current buffer's language type invokes the macro that is used to
+      compile the entire project to which that buffer is a part. So, it is
+      possible to support more than one language in a project, which you may
+      need to do sometimes. For example, if you are doing a website, you may
+      have Haskell (or some other language) running the back-end, and Elm
+      (or TypeScript or PureScript) running the front-enb. If you are in 
+      a buffer containing the Elm code, it will compile that. Or if you are
+      in the Haskell buffer, it will compile that instead.
+    + Of course, you can configure your macros to compile both languages
+      when in Haskell and just Elm when you are in the Elm buffer. You
+      have the full power to configure your own workflow.
+    + Support for LLMs like Claude Code is not complete yet. I am open
+      to pull requests should you wish.
 
-** Recent changes
+** "Recent" changes
    I changed the way F5 and F6 keys work. You will always get a meaningful
    compile string, and F6 is now used to modify the string before the compilation,
    wheras before F5 did that (and F6 did not default to anything meaningful.)
+
+   I made this change sometime back, so they are no longer "recent".
